@@ -1,8 +1,14 @@
 import React, { Component } from "react";
 import { Container, Nav } from "./styled-components";
+
 import UserImg from "./assets/images/user-img-placeholder.jpeg";
+
 import config from './config';
 import "bootstrap/dist/css/bootstrap.css";
+
+import FusionCharts from "fusioncharts";
+import Charts from "fusioncharts/fusioncharts.charts";
+
 const url = `https://sheets.googleapis.com/v4/spreadsheets/${ config.spreadsheetId }/values:batchGet?ranges=Sheet1&majorDimension=ROWS&key=${ config.apiKey }`;
 
 
@@ -13,6 +19,67 @@ class App extends Component {
     this.state = {
      items:[] 
     };
+  }
+
+  getData = arg => {
+
+    const arr = this.state.items;
+    const arrLen = arr.length;
+
+    let amRevenue = 0;
+    let ebRevenue = 0;
+    let etRevenue = 0;
+    let totalRevenue = 0;
+    let productViews = 0;
+    let purchaseRate = 0;
+    let checkoutRate = 0;
+    let abandonedRate = 0;
+    let ordersTrendStore = [];
+    let ordersTrendRegion = [];
+    let orderesTrendnw = 0;
+    let orderesTrendsw = 0;
+    let orderesTrendc = 0;
+    let orderesTrendne = 0;
+    let orderesTrendse = 0;
+
+    let selectedValue = null;
+
+    for (let i = 0; i < arrLen; i++) {
+      if (arg === arr[i]["month"]) {
+        if (arr[i]["source"] === "AM") {
+          amRevenue += parseInt(arr[i].revenue);
+          ordersTrendStore.push({
+            label: "Amazon",
+            value: arr[i].orders,
+            displayValue: `${arr[i].orders} orders`
+          });
+        } else if (arr[i]["source"] === "EB") {
+          ebRevenue += parseInt(arr[i].revenue);
+          ordersTrendStore.push({
+            label: "Ebay",
+            value: arr[i].orders,
+            displayValue: `${arr[i].orders} orders`
+          });
+        } else if (arr[i]["source"] === "ET") {
+          etRevenue += parseInt(arr[i].revenue);
+          ordersTrendStore.push({
+            label: "Etsy",
+            value: arr[i].orders,
+            displayValue: `${arr[i].orders} orders`
+          });
+        }
+        productViews += parseInt(arr[i].product_views);
+        purchaseRate += parseInt(arr[i].purchase_rate / 3);
+        checkoutRate += parseInt(arr[i].checkout_rate / 3);
+        abandonedRate += parseInt(arr[i].abandoned_rate / 3);
+        orderesTrendnw += parseInt(arr[i].orders_nw);
+        orderesTrendsw += parseInt(arr[i].orders_sw);
+        orderesTrendc += parseInt(arr[i].orders_c);
+        orderesTrendne += parseInt(arr[i].orders_ne);
+        orderesTrendse += parseInt(arr[i].orders_se);
+      }
+    }
+    
   }
   
   // Fetching data from google sheet
