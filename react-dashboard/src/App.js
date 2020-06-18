@@ -17,7 +17,18 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-     items:[] 
+     items:[],
+     dropdownOptions: [],
+     selectedValue: null,
+     amRevenue: null,
+     ebRevenue: null,
+     etRevenue: null,
+     totalRevenue: null,
+     productViews: null,
+     purchaseRate: " ",
+     checkoutRate: " ",
+     abandonedRate: " ",
+     ordersTrendStore: []
     };
   }
 
@@ -79,8 +90,41 @@ class App extends Component {
         orderesTrendse += parseInt(arr[i].orders_se);
       }
     }
-    
-  }
+    totalRevenue = amRevenue + ebRevenue + etRevenue;
+    ordersTrendRegion.push({
+      id: "01",
+      value: orderesTrendne
+    }, {
+      id: "02",
+      value: orderesTrendnw
+    }, {
+      id: "03",
+      value: orderesTrendse
+    }, {
+      id: "04",
+      value: orderesTrendsw
+    }, {
+      id: "05",
+      value: orderesTrendc
+    });
+
+    selectedValue = arg;
+
+    // Updating states
+    this.setState({
+      amRevenue: formatNum(amRevenue),
+      ebRevenue: formatNum(ebRevenue),
+      etRevenue: formatNum(etRevenue),
+      totalRevenue: formatNum(totalRevenue),
+      productViews: formatNum(productViews),
+      purchaseRate: purchaseRate,
+      checkoutRate: checkoutRate,
+      abandonedRate: abandonedRate,
+      ordersTrendStore: ordersTrendStore,
+      ordersTrendRegion: ordersTrendRegion,
+      selectedValue: selectedValue
+    });
+  };
   
   // Fetching data from google sheet
   componentDidMount() {
