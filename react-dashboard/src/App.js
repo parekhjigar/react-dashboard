@@ -4,6 +4,7 @@ import { Container, Nav } from "./styled-components";
 import UserImg from "./assets/images/user-img-placeholder.jpeg";
 
 import config from './config';
+import Dropdown from "react-dropdown";
 import "bootstrap/dist/css/bootstrap.css";
 
 import FusionCharts from "fusioncharts";
@@ -140,7 +141,21 @@ class App extends Component {
         rows.push(rowObject);
       }
 
-      this.setState({ items: rows });
+      let dropdownOptions = [];
+
+      for (let i = 0; i < rows.length; i++) {
+        dropdownOptions.push(rows[i].month);
+      }
+      
+      dropdownOptions = Array.from(new Set(dropdownOptions)).reverse();
+
+      this.setState({ 
+        items: rows,
+        dropdownOptions: dropdownOptions,
+        selectedValue: "Jan 2019"
+      },
+        () => this.getData("Jan 2019")
+      );
     });
   }
 
@@ -165,7 +180,15 @@ class App extends Component {
         {/* Bottom static navbar*/}
         <Nav className="navbar fixed-top nav-secondary is-dark is-light-text">
           <Container className="text-medium">Summary</Container>
-          
+          <Container className="navbar-nav ml-auto">
+            <Dropdown
+              className="pr-2 custom-dropdown"
+              options={this.state.dropdownOptions}
+              onChange={this.updateDashboard}
+              value={this.state.selectedValue}
+              placeholder="Select an option"
+            />
+          </Container>
         </Nav>
 
         {/* content area start */}
