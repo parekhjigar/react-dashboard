@@ -5,6 +5,7 @@ import UserImg from "./assets/images/user-img-placeholder.jpeg";
 
 import config from './config';
 import Dropdown from "react-dropdown";
+import formatNum from "./formatNumber";
 import "bootstrap/dist/css/bootstrap.css";
 
 import FusionCharts from "fusioncharts";
