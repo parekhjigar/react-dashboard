@@ -10,6 +10,12 @@ import "bootstrap/dist/css/bootstrap.css";
 
 import FusionCharts from "fusioncharts";
 import Charts from "fusioncharts/fusioncharts.charts";
+import Maps from "fusioncharts/fusioncharts.maps";
+import USARegion from "fusionmaps/maps/es/fusioncharts.usaregion";
+import ReactFC from "react-fusioncharts";
+import "./chartsTheme";
+
+ReactFC.fcRoot(FusionCharts, Charts, Maps, USARegion);
 
 const url = `https://sheets.googleapis.com/v4/spreadsheets/${ config.spreadsheetId }/values:batchGet?ranges=Sheet1&majorDimension=ROWS&key=${ config.apiKey }`;
 
@@ -205,7 +211,8 @@ class App extends Component {
                 </Container>
 
                 <Container className="card-value pt-4 text-x-large">
-                  
+                  <span className="text-large pr-1">$</span>
+                  {this.state.totalRevenue}
                 </Container>
               </Container>
             </Container>
@@ -222,7 +229,8 @@ class App extends Component {
                 </Container>
 
                 <Container className="card-value pt-4 text-x-large">
-                  
+                  <span className="text-large pr-1">$</span>
+                  {this.state.amRevenue}                  
                 </Container>
               </Container>
             </Container>
@@ -239,7 +247,8 @@ class App extends Component {
                 </Container>
 
                 <Container className="card-value pt-4 text-x-large">
-                  
+                  <span className="text-large pr-1">$</span>
+                  {this.state.ebRevenue}                  
                 </Container>
               </Container>
             </Container>
@@ -256,7 +265,8 @@ class App extends Component {
                 </Container>
 
                 <Container className="card-value pt-4 text-x-large">
-                  
+                  <span className="text-large pr-1">$</span>
+                  {this.state.etRevenue}                  
                 </Container>
               </Container>
             </Container>
@@ -272,7 +282,7 @@ class App extends Component {
                   </Container>
                 </Container>
                 <Container className="card-value pt-4 text-x-large">
-                  
+                  {this.state.productViews}
                   <span className="text-medium pl-2 is-dark-text-light">
                     views
                   </span>
@@ -285,17 +295,100 @@ class App extends Component {
                 <Container className="row full-height">
                   <Container className="col-sm-4 full height">
                     <Container className="chart-container full-height">
-                      
+                    <ReactFC
+                        {...{
+                          type: "doughnut2d",
+                          width: "100%",
+                          height: "100%",
+                          dataFormat: "json",
+                          containerBackgroundOpacity: "0",
+                          dataSource: {
+                            chart: {
+                              caption: "Purchase Rate",
+                              theme: "ecommerce",
+                              defaultCenterLabel: `${this.state.purchaseRate}%`,
+                              paletteColors: "#3B70C4, #000000"
+                            },
+                            data: [
+                              {
+                                label: "active",
+                                value: `${this.state.purchaseRate}`
+                              },
+                              {
+                                label: "inactive",
+                                alpha: 5,
+                                value: `${100 - this.state.purchaseRate}`
+                              }
+                            ]
+                          }
+                        }}
+                      />
                     </Container>
                   </Container>
                   <Container className="col-sm-4 full-height border-left border-right">
                     <Container className="chart-container full-height">
-                      
+                    <ReactFC
+                        {...{
+                          type: "doughnut2d",
+                          width: "100%",
+                          height: "100%",
+                          dataFormat: "json",
+                          containerBackgroundOpacity: "0",
+                          dataSource: {
+                            chart: {
+                              caption: "Checkout Rate",
+                              theme: "ecommerce",
+                              defaultCenterLabel: `${this.state.checkoutRate}%`,
+                              paletteColors: "#41B6C4, #000000"
+                            },
+                            data: [
+                              {
+                                label: "active",
+                                value: `${this.state.checkoutRate}`
+                              },
+                              {
+                                label: "inactive",
+                                alpha: 5,
+                                value: `${100 - this.state.checkoutRate}`
+                              }
+                            ]
+                          }
+                        }}
+                      />
                     </Container>
                   </Container>
                   <Container className="col-sm-4 full-height">
                     <Container className="chart-container full-height">
-                      
+                    <ReactFC
+                        {...{
+                          type: "doughnut2d",
+                          width: "100%",
+                          height: "100%",
+                          dataFormat: "json",
+                          containerBackgroundOpacity: "0",
+                          dataSource: {
+                            chart: {
+                              caption: "Abandoned Cart Rate",
+                              theme: "ecommerce",
+                              defaultCenterLabel: `${
+                                this.state.abandonedRate
+                              }%`,
+                              paletteColors: "#EDF8B1, #000000"
+                            },
+                            data: [
+                              {
+                                label: "active",
+                                value: `${this.state.abandonedRate}`
+                              },
+                              {
+                                label: "inactive",
+                                alpha: 5,
+                                value: `${100 - this.state.abandonedRate}`
+                              }
+                            ]
+                          }
+                        }}
+                      />
                     </Container>
                   </Container>
                 </Container>
