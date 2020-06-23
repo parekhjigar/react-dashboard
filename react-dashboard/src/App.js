@@ -133,6 +133,11 @@ class App extends Component {
       selectedValue: selectedValue
     });
   };
+
+  updateDashboard = event => {
+    this.getData(event.value);
+    this.setState({ selectedValue: event.value });
+  };
   
   // Fetching data from google sheet
   componentDidMount() {
@@ -401,7 +406,24 @@ class App extends Component {
             <Container className="col-md-6 mb-4">
               <Container className="card is-card-dark chart-card">
                 <Container className="chart-container large full-height">
-                  
+                  <ReactFC
+                    {...{
+                      type: "bar2d",
+                      width: "100%",
+                      height: "100%",
+                      dataFormat: "json",
+                      containerBackgroundOpacity: "0",
+                      dataEmptyMessage: "Loading Data...",
+                      dataSource: {
+                        chart: {
+                          theme: "ecommerce",
+                          caption: "Orders Trend",
+                          subCaption: "By Stores"
+                        },
+                        data: this.state.ordersTrendStore
+                      }
+                    }}
+                  />
                 </Container>
               </Container>
             </Container>
@@ -409,7 +431,41 @@ class App extends Component {
             <Container className="col-md-6 mb-4">
               <Container className="card is-card-dark chart-card">
                 <Container className="chart-container large full-height">
-                  
+                  <ReactFC
+                    {...{
+                      type: "usaregion",
+                      width: "100%",
+                      height: "100%",
+                      dataFormat: "json",
+                      containerBackgroundOpacity: "0",
+                      dataEmptyMessage: "Loading Data...",
+                      dataSource: {
+                        chart: {
+                          theme: "ecommerce",
+                          caption: "Orders Trend",
+                          subCaption: "By Region"
+                        },
+                        colorrange: {
+                          code: "#F64F4B",
+                          minvalue: "0",
+                          gradient: "1",
+                          color: [
+                            {
+                              minValue: "10",
+                              maxvalue: "25",
+                              code: "#EDF8B1"
+                            },
+                            {
+                              minvalue: "25",
+                              maxvalue: "50",
+                              code: "#18D380"
+                            }
+                          ]
+                        },
+                        data: this.state.ordersTrendRegion
+                      }
+                    }}
+                  />
                 </Container>
               </Container>
             </Container>
