@@ -4,6 +4,8 @@ A react dashboard using combination of Charts, Maps, and KPI elements.
 
 React app created with [Create React App](https://github.com/facebookincubator/create-react-app)
 
+![Screenshot](Screenshot.png)
+
 ## Create-react-app
 
 	`$ npx create-react-app react-dashboard`
